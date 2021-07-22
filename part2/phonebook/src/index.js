@@ -12,15 +12,14 @@ const App = () => {
     const nameObject = {
       name: newName,
     }
-    
+
     if (persons.find(person => person.name === newName)) {
       alert("This use already exists");
-      setNewName('');
 
     } else {
       setPersons(persons.concat(nameObject))
-      setNewName('')
     }
+    setNewName('')
   }
 
   const handleNameChange = (event) => {
