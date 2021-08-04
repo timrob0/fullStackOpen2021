@@ -3,7 +3,7 @@ import React from "react";
 const Filter = (props) => {
   return (
     <>
-      <p>filter show with: </p>
+      filter show with:
       <input value={props.filterPerson} onChange={props.handleFilterChange} />
     </>
   );
