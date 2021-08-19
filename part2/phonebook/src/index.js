@@ -4,12 +4,15 @@ import Filter from "./components/filter";
 import PersonForm from "./components/personform";
 import Persons from "./components/persons";
 import nameService from "./services/names";
+import Error from "./components/error";
+import './index.css';
 
 const App = () => {
   const [persons, setPersons] = useState([""]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterPerson, setFilterPerson] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     nameService
@@ -37,7 +40,22 @@ const App = () => {
         nameService
           .update(personFind.id,nameObject)
           .then(returnedName => {
-          setPersons(persons.map(person => person.id !== personFind.id ? person : returnedName))
+            setPersons(persons.map(person => person.id !== personFind.id ? person : returnedName))
+            setErrorMessage(
+              `${nameObject.name} has been updated`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
+          .catch(error => {
+            setPersons(persons.filter(p => p.id !== personFind.id))
+            setErrorMessage(
+              `information of ${newName} has already been deleted from the server `
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
           })
       }
 
@@ -45,7 +63,14 @@ const App = () => {
       nameService
         .create(nameObject)
         .then((returnedName) => {
-        setPersons(persons.concat(returnedName));
+          setPersons(persons.concat(returnedName));
+          setErrorMessage(
+            `Added ${nameObject.name}`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        
       });
     }
     setNewName("");
@@ -79,6 +104,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Error message={errorMessage}/>
       <Filter
         filterPerson={filterPerson}
         handleFilterChange={handleFilterChange}

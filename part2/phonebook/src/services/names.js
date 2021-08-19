@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = 'http://localhost:3001/persons'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
@@ -17,12 +17,10 @@ const update = (id, newObject) => {
     return request.then(response => response.data)
 }
 
-const destroy = (id, newObject) => {
-    const request = axios.delete(`${baseUrl}/${id}`, newObject)
+const destroy = (id) => {
+    const request = axios.delete(`${baseUrl}/${id}`)
     return request.then(response => response.data)
   }
-
-const numService = { getAll, create, update, destroy };
-
-export default numService;
+// eslint-disable-next-line
+export default { getAll, create, update, destroy }
 
